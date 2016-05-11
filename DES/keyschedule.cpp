@@ -16,7 +16,7 @@ keyschedule::keyschedule(std::bitset<64> key)
 	}
 
 	//split into left and right keys
-	for (int i = 0; i < 28; i++)
+	for (int i = 0; i < 28; ++i)
 	{
 		C0[i] = keyplus[i+28];
 		D0[i] = keyplus[i];
@@ -26,7 +26,7 @@ keyschedule::keyschedule(std::bitset<64> key)
 	Cn[0] = C0;
 	Dn[0] = D0;
 
-	for (int i = 0; i < 16; i++)
+	for (int i = 0; i < 16; ++i)
 	{
 		rotate_left(Cn[i], shifts[i]);
 		rotate_left(Dn[i], shifts[i]);
@@ -39,9 +39,9 @@ keyschedule::keyschedule(std::bitset<64> key)
 	}
 
 	//concatenate left and right keys
-	for (int i = 0; i < 16; i++)
+	for (int i = 0; i < 16; ++i)
 	{
-		for (int j = 0; j < 28; j++)
+		for (int j = 0; j < 28; ++j)
 		{
 			CnDn[i][j+28] = Cn[i][j];
 			CnDn[i][j] = Dn[i][j];
@@ -49,9 +49,9 @@ keyschedule::keyschedule(std::bitset<64> key)
 	}
 
 	//apply PC-2
-	for (int i = 0; i < 16; i++)
+	for (int i = 0; i < 16; ++i)
 	{
-		for (int j = 0; j < 48; j++)
+		for (int j = 0; j < 48; ++j)
 		{
 			keys[i][47-j] = CnDn[i][56-PC_2[j]];
 		}
