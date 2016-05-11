@@ -21,7 +21,7 @@
     <ClCompile Include="keyschedule.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="encrypt.cpp">
+    <ClCompile Include="DES.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -29,7 +29,7 @@
     <ClInclude Include="keyschedule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="encrypt.h">
+    <ClInclude Include="DES.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

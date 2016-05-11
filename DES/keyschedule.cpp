@@ -1,4 +1,6 @@
 #include "keyschedule.h"
+#include <algorithm>
+#include <iterator>
 
 keyschedule::keyschedule(std::bitset<64> key)
 {
@@ -73,3 +75,8 @@ std::bitset<48> keyschedule::operator[](std::size_t idx)
 {
 	return keys[idx];
 };
+
+void keyschedule::reverse()
+{
+	std::reverse(std::begin(keys), std::end(keys));
+}

@@ -2,9 +2,12 @@
 #include <bitset>
 #include "keyschedule.h"
 
-class encrypt
+class DES
 {
 private:
+	std::bitset<64> msg;
+	keyschedule keys;
+	
 	//Initial permutation
 	int IP[64] = {	58,	50,	42,	34,	26,	18,	10,	2,
 					60,	52,	44,	36,	28,	20,	12,	4,
@@ -86,7 +89,11 @@ private:
 	std::bitset<32> feistel(std::bitset<32> Rn, std::bitset<48> kn);
 
 public:
-	encrypt(std::bitset<64> msg, keyschedule keys, bool encrypt = true);
-	~encrypt();
+	DES(std::bitset<64> msg, keyschedule keys);
+	~DES();
+
+	std::bitset<64> encrypt();
+	std::bitset<64> decrypt();
+
 };
 
