@@ -142,11 +142,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="bitsetToText.cpp" />
     <ClCompile Include="DES.cpp" />
     <ClCompile Include="keyschedule.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bitsetToText.h" />
     <ClInclude Include="DES.h" />
     <ClInclude Include="keyschedule.h" />
   </ItemGroup>

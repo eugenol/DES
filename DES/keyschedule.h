@@ -29,11 +29,14 @@ private:
 
 
 	void rotate_left(std::bitset<28> &key, int shift);
+	void do_keyschedule(std::bitset<64> key);
 
 public:
 	keyschedule(std::bitset<64> key);
+	keyschedule();
 	~keyschedule();
 	std::bitset<48> keyschedule::operator[](std::size_t idx);
 	void reverse();
+	void setNewKey(std::bitset<64> key);
 };
 
