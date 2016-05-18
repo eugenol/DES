@@ -10,6 +10,7 @@ std::bitset<64> encrypt(std::bitset<64> msg, std::bitset<64> key);
 std::bitset<64> decrypt(std::bitset<64> msg, std::bitset<64> key);
 
 std::string encrypt_string(std::string message, std::string key);
+std::string decrypt_string(std::string message, std::string key);
 
 std::bitset<64> key_string_to_bitset(std::string key);
 
