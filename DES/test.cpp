@@ -5,8 +5,8 @@ void encrypt_file(std::string message, std::string key)
 {
 	char buffer[1024];
 	int bytesRead;
-	std::ifstream inFile("test.txt", std::ios::in | std::ios::binary);
-	std::ofstream outFile("test.txt.enc", std::ios::out | std::ios::binary);
+	std::ifstream inFile("helloworld.exe", std::ios::in | std::ios::binary);
+	std::ofstream outFile("helloworld.exe.enc", std::ios::out | std::ios::binary);
 
 	std::bitset<64> bitkey = key_string_to_bitset(key);
 
@@ -57,12 +57,12 @@ void decrypt_file(std::string message, std::string key)
 	int padlength=0;
 
 	struct stat stat_buf;
-	stat("test.txt.enc", &stat_buf);
+	stat("helloworld.exe.enc", &stat_buf);
 	fileSize = stat_buf.st_size;
-	last_chunk = fileSize / 1024 + (fileSize % 1024 == 0) ? 0 : 1;
+	last_chunk = fileSize / 1024 + ((fileSize % 1024 == 0) ? 0 : 1);
 
-	std::ifstream inFile("test.txt.enc", std::ios::in | std::ios::binary);
-	std::ofstream outFile("test.txt.dec", std::ios::out | std::ios::binary);
+	std::ifstream inFile("helloworld.exe.enc", std::ios::in | std::ios::binary);
+	std::ofstream outFile("helloworld.exe", std::ios::out | std::ios::binary);
 
 	std::bitset<64> bitkey = key_string_to_bitset(key);
 
