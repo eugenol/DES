@@ -37,6 +37,5 @@ public:
 	~keyschedule();
 	std::bitset<48> keyschedule::operator[](std::size_t idx);
 	void reverse();
-	void setNewKey(std::bitset<64> key);
 };
 

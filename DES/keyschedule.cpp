@@ -88,8 +88,3 @@ void keyschedule::reverse()
 {
 	std::reverse(std::begin(keys), std::end(keys));
 }
-
-void keyschedule::setNewKey(std::bitset<64> key)
-{
-	do_keyschedule(key);
-}

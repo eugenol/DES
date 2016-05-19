@@ -24,7 +24,7 @@
     <ClCompile Include="DES.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="bitsetToText.cpp">
+    <ClCompile Include="test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -35,7 +35,7 @@
     <ClInclude Include="DES.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="bitsetToText.h">
+    <ClInclude Include="test.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

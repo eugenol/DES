@@ -1,7 +1,4 @@
-#include <vector>
 #include "DES.h"
-#include <iostream>
-
 
 std::bitset<64> encrypt(std::bitset<64> msg, std::bitset<64> key)
 {
