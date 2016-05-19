@@ -245,3 +245,5 @@ ModelManifest.xml
 .fake/
 /DES/helloworld.exe
 /DES/helloworld.exe.enc
+/DES/.dec
+/DES/.enc
