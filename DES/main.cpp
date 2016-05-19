@@ -7,6 +7,7 @@
 using namespace std;
 
 //function prototypes
+void pretty_print(std::string text);
 void menu_option1();
 void menu_option2();
 void menu_option3();
@@ -56,6 +57,21 @@ int main(int argc, char **argv)
 	return 0;
 }
 
+
+void pretty_print(std::string text)
+{
+	char* temp = new char[text.size()];
+	unsigned char *tmpPtr = nullptr;
+	strncpy(temp, text.c_str(), text.size());
+	tmpPtr = (unsigned char *)temp;
+
+	for (int i = 0; i < text.size(); ++i)
+		cout << hex << setfill('0') << setw(2) << (int)tmpPtr[i] << " ";
+	cout << endl;
+
+	delete[] temp;
+}
+
 void menu_option1()
 {
 	string message;
@@ -69,9 +85,12 @@ void menu_option1()
 	getline(cin, message);
 	cout << "Enter the encryption key > ";
 	getline(cin, key);
-	cout << "The encrypted text is: ";
-	cout << encrypt_string(message, key) << "\n\n";
 
+	result = encrypt_string(message, key);
+
+	cout << "The encrypted text is: ";
+	cout << result << "\n\n";
+	pretty_print(result);
 	cout << "Press enter key to return to the main menu\n";
 	//cin.ignore();
 	temp = cin.get();
