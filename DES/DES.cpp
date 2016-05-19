@@ -338,7 +338,7 @@ std::string decrypt_string(std::string message, std::string key)
 	std::bitset<64> enc_res;
 	std::vector<std::bitset<64>> enc_set;
 
-	unsigned char *temp_str = new unsigned char[mlength_new];
+	unsigned char *temp_str;// = new unsigned char[mlength_new];
 	char *temp_str2 = new char[mlength_new];
 
 	for (int i = 0; i < mlength_new; ++i)
@@ -346,9 +346,11 @@ std::string decrypt_string(std::string message, std::string key)
 		temp_str2[i] = message[i];
 	}
 
-	memcpy(temp_str, temp_str2, mlength_new);
+	//memcpy(temp_str, temp_str2, mlength_new);
 
-	delete temp_str2;
+	//delete temp_str2;
+
+	temp_str = (unsigned char *)temp_str2;
 
 	for (int i = 0; i < size; ++i)
 	{
