@@ -206,103 +206,299 @@ std::bitset<32> feistel(std::bitset<32> Rn, std::bitset<48> kn)
 	return final;
 }
 
+//std::string encrypt_string(std::string message, std::string key)
+//{
+//	std::bitset<64> bitkey = key_string_to_bitset(key);
+//	
+//	int mlength = message.length();
+//	int mlength_new, padlength;
+//
+//	//pad the message
+//	padlength = 8 - mlength % 8;
+//
+//	mlength_new = mlength + padlength;
+//
+//	for(int i = mlength; i < mlength_new; ++i)
+//	{
+//		message.insert(message.end(), (char) padlength);
+//	}
+//
+//
+//	int size = mlength_new / 8;
+//
+//	std::bitset<64> bitmessage;
+//	std::bitset<64> enc_res;
+//	std::vector<std::bitset<64>> enc_set;
+//
+//	for (int i = 0; i < size; ++i)
+//	{
+//		for (int j = 0; j < 8;++j)
+//		{
+//			std::cout << "P: " << message[8 * i + j] <<" "<< (int)message[8 * i + j]<<"\n";
+//			std::bitset<64> temp((int) message[8 * i + j]);
+//			bitmessage <<= 8;
+//			bitmessage |= temp;
+//		}
+//
+//
+//		std::cout << "P: " << bitmessage << "\n";
+//		std::cout << "K: " << bitkey << "\n";
+//
+//
+//		enc_res = encrypt(bitmessage, bitkey);
+//
+//		std::cout << "C: " << enc_res << "\n";
+//
+//		enc_set.push_back(enc_res);
+//	}
+//
+//	std::string ret_string;
+//
+//	for (int i = 0; i < enc_set.size(); ++i)
+//	{
+//		std::bitset<8> parts[8];
+//		for (int j = 0; j < 8; ++j)
+//		{
+//			for (int k = 0; k < 8; ++k)
+//			{
+//
+//				parts[7-j][k] = enc_set[i][j * 8 + k];
+//			}
+//		}
+//		std::cout << "\n" << "C: ";
+//
+//		for (int j = 0; j < 8; ++j)
+//		{
+//			char c;
+//			c = (char)parts[j].to_ulong();
+//			ret_string.insert(ret_string.end(), c);
+//			std::cout << parts[j];
+//		}
+//		std::cout << "\n";
+//
+//		for (int j = 0; j < 8; ++j)
+//		{
+//			char c;
+//			c = (char)parts[j].to_ulong();
+//			std::cout <<"Bits :"<< parts[j]<< " Val :"<< parts[j].to_ulong()<< " Char :"<<c<<"\n";
+//		}
+//		std::cout << "\n";
+//
+//
+//		for (int j = 0; j < 8; ++j)
+//		{
+//			char c;
+//			c = (char)parts[j].to_ulong();
+//			std::cout << c;
+//		}
+//		std::cout << "\n";
+//
+//		std::cout << ret_string <<"\n";
+//	}
+//	return ret_string;
+//}
+//
+//
+//std::string decrypt_string(std::string message, std::string key)
+//{
+//	std::bitset<64> bitkey = key_string_to_bitset(key);
+//
+//	int mlength = message.length();
+//	int mlength_new, padlength;
+//
+//	//pad the message
+//	//if (mlength % 8 == 0)
+//	//{
+//	//	padlength = 8;
+//	//}
+//	//else
+//	//{
+//	//	padlength = 8 - mlength % 8;
+//	//}
+//
+//	//mlength_new = mlength + padlength;
+//
+//	//for (int i = mlength; i < mlength_new; ++i)
+//	//{
+//	//	message.insert(message.end(), (char)padlength);
+//	//}
+//
+//	mlength_new = mlength;
+//
+//	int size = mlength_new / 8;
+//
+//	std::bitset<64> bitmessage;
+//	std::bitset<64> enc_res;
+//	std::vector<std::bitset<64>> enc_set;
+//
+//	unsigned char *temp_str;// = new unsigned char[mlength_new];
+//	char *temp_str2 = new char[mlength_new];
+//
+//	for (int i = 0; i < mlength_new; ++i)
+//	{
+//		temp_str2[i] = message[i];
+//	}
+//
+//	//memcpy(temp_str, temp_str2, mlength_new);
+//
+//	//delete temp_str2;
+//
+//	temp_str = (unsigned char *)temp_str2;
+//
+//	for (int i = 0; i < size; ++i)
+//	{
+//		for (int j = 0; j < 8;++j)
+//		{
+//			//std::cout << "P: " << message[8 * i + j] <<" "<< (unsigned int)message[8 * i + j]<< " " << (int)temp_str[8 * i + j]<<"\n";
+//			std::bitset<64> temp((unsigned int)temp_str[8 * i + j]);
+//			bitmessage <<= 8;
+//			bitmessage |= temp;
+//		}
+//
+//
+//		std::cout << "C: " << bitmessage << "\n";
+//		std::cout << "K: " << bitkey << "\n";
+//
+//
+//		enc_res = decrypt(bitmessage, bitkey);
+//
+//		std::cout << "P: " << enc_res << "\n";
+//
+//		enc_set.push_back(enc_res);
+//	}
+//
+//	std::string ret_string("");
+//
+//	for (int i = 0; i < enc_set.size(); ++i)
+//	{
+//		std::bitset<8> parts[8];
+//		for (int j = 0; j < 8; ++j)
+//		{
+//			for (int k = 0; k < 8; ++k)
+//			{
+//
+//				parts[7 - j][k] = enc_set[i][j * 8 + k];
+//			}
+//		}
+//
+//		for (int j = 0; j < 8; ++j)
+//		{
+//			char c;
+//			c = (char)parts[j].to_ulong();
+//			ret_string.insert(ret_string.end(), c);
+//		}
+//
+//	}
+//	return ret_string;
+//}
+
+std::bitset<64> key_string_to_bitset(std::string key)
+{
+	int keylen = key.length();
+	int padlength;
+	char tempKey[8];
+	unsigned char* keyPtr;
+
+	//pad the key if it is less than 8 characters, else just truncate it
+	if (keylen < 8)
+	{
+		padlength = 8 - keylen % 8;
+
+		int keylength_new = keylen + padlength;
+
+		for (int i = keylen; i < keylength_new; ++i)
+		{
+			key.insert(key.end(), (char)padlength);
+		}
+	}
+
+	for (int i = 0; i < 8; ++i)
+	{
+		strncpy(tempKey, key.c_str(), 8);
+	}
+
+	keyPtr = (unsigned char*) tempKey;
+
+	std::bitset<64> bitkey;
+		
+	for (int j = 0; j < 8;++j)
+	{
+		std::bitset<64> temp = keyPtr[j];
+		bitkey <<= 8;
+		bitkey |= temp;
+	}
+
+	return bitkey;
+}
+
+void encrypt_block(unsigned char *block, std::bitset<64> key, bool enc)
+{
+
+	std::bitset<64> bitmessage;
+	std::bitset<64> enc_res;
+	
+	for (int j = 0; j < 8;++j)
+	{
+		std::bitset<64> temp((unsigned int)block[j]);
+		bitmessage <<= 8;
+		bitmessage |= temp;
+	}
+
+	if(enc)
+		enc_res = encrypt(bitmessage, key);
+	else
+		enc_res = decrypt(bitmessage, key);
+
+	std::bitset<8> parts[8];
+	for (int j = 0; j < 8; ++j)
+	{
+		for (int k = 0; k < 8; ++k)
+		{
+
+			parts[7 - j][k] = enc_res[j * 8 + k];
+		}
+	}
+
+	for (int j = 0; j < 8; ++j)
+	{
+		unsigned char c;
+		c = (unsigned char)parts[j].to_ulong();
+		block[j] = c;
+	}
+}
+
 std::string encrypt_string(std::string message, std::string key)
 {
 	std::bitset<64> bitkey = key_string_to_bitset(key);
-	
+
 	int mlength = message.length();
 	int mlength_new, padlength;
 
 	//pad the message
-	if (mlength % 8 == 0)
-	{
-		padlength = 8;
-	}
-	else
-	{
-		padlength = 8 - mlength % 8;
-	}
+	padlength = 8 - mlength % 8;
 
 	mlength_new = mlength + padlength;
 
-	for(int i = mlength; i < mlength_new; ++i)
+	for (int i = mlength; i < mlength_new; ++i)
 	{
-		message.insert(message.end(), (char) padlength);
+		message.insert(message.end(), (char)padlength);
 	}
-
-
+	
 	int size = mlength_new / 8;
 
-	std::bitset<64> bitmessage;
-	std::bitset<64> enc_res;
-	std::vector<std::bitset<64>> enc_set;
+	char *msgPtr = new char[mlength_new+1];
+	strncpy(msgPtr, message.c_str(), mlength_new+1);
 
 	for (int i = 0; i < size; ++i)
 	{
-		for (int j = 0; j < 8;++j)
-		{
-			std::cout << "P: " << message[8 * i + j] <<" "<< (int)message[8 * i + j]<<"\n";
-			std::bitset<64> temp((int) message[8 * i + j]);
-			bitmessage <<= 8;
-			bitmessage |= temp;
-		}
-
-
-		std::cout << "P: " << bitmessage << "\n";
-		std::cout << "K: " << bitkey << "\n";
-
-
-		enc_res = encrypt(bitmessage, bitkey);
-
-		std::cout << "C: " << enc_res << "\n";
-
-		enc_set.push_back(enc_res);
+		encrypt_block((unsigned char*)&msgPtr[8 * i], bitkey, true);
 	}
 
-	std::string ret_string;
+	std::string retval(msgPtr);
 
-	for (int i = 0; i < enc_set.size(); ++i)
-	{
-		std::bitset<8> parts[8];
-		for (int j = 0; j < 8; ++j)
-		{
-			for (int k = 0; k < 8; ++k)
-			{
+	delete[] msgPtr;
 
-				parts[7-j][k] = enc_set[i][j * 8 + k];
-			}
-		}
-		std::cout << "\n" << "C: ";
-
-		for (int j = 0; j < 8; ++j)
-		{
-			char c;
-			c = (char)parts[j].to_ulong();
-			ret_string.insert(ret_string.end(), c);
-			std::cout << parts[j];
-		}
-		std::cout << "\n";
-
-		for (int j = 0; j < 8; ++j)
-		{
-			char c;
-			c = (char)parts[j].to_ulong();
-			std::cout <<"Bits :"<< parts[j]<< " Val :"<< parts[j].to_ulong()<< " Char :"<<c<<"\n";
-		}
-		std::cout << "\n";
-
-
-		for (int j = 0; j < 8; ++j)
-		{
-			char c;
-			c = (char)parts[j].to_ulong();
-			std::cout << c;
-		}
-		std::cout << "\n";
-
-		std::cout << ret_string <<"\n";
-	}
-	return ret_string;
+	return retval;
 }
 
 
@@ -311,124 +507,22 @@ std::string decrypt_string(std::string message, std::string key)
 	std::bitset<64> bitkey = key_string_to_bitset(key);
 
 	int mlength = message.length();
-	int mlength_new, padlength;
+	int padlength;
+	int size = mlength / 8;
 
-	//pad the message
-	//if (mlength % 8 == 0)
-	//{
-	//	padlength = 8;
-	//}
-	//else
-	//{
-	//	padlength = 8 - mlength % 8;
-	//}
-
-	//mlength_new = mlength + padlength;
-
-	//for (int i = mlength; i < mlength_new; ++i)
-	//{
-	//	message.insert(message.end(), (char)padlength);
-	//}
-
-	mlength_new = mlength;
-
-	int size = mlength_new / 8;
-
-	std::bitset<64> bitmessage;
-	std::bitset<64> enc_res;
-	std::vector<std::bitset<64>> enc_set;
-
-	unsigned char *temp_str;// = new unsigned char[mlength_new];
-	char *temp_str2 = new char[mlength_new];
-
-	for (int i = 0; i < mlength_new; ++i)
-	{
-		temp_str2[i] = message[i];
-	}
-
-	//memcpy(temp_str, temp_str2, mlength_new);
-
-	//delete temp_str2;
-
-	temp_str = (unsigned char *)temp_str2;
+	char *msgPtr = new char[mlength+1];
+	strncpy(msgPtr, message.c_str(), mlength + 1);
 
 	for (int i = 0; i < size; ++i)
 	{
-		for (int j = 0; j < 8;++j)
-		{
-			//std::cout << "P: " << message[8 * i + j] <<" "<< (unsigned int)message[8 * i + j]<< " " << (int)temp_str[8 * i + j]<<"\n";
-			std::bitset<64> temp((unsigned int)temp_str[8 * i + j]);
-			bitmessage <<= 8;
-			bitmessage |= temp;
-		}
-
-
-		std::cout << "C: " << bitmessage << "\n";
-		std::cout << "K: " << bitkey << "\n";
-
-
-		enc_res = decrypt(bitmessage, bitkey);
-
-		std::cout << "P: " << enc_res << "\n";
-
-		enc_set.push_back(enc_res);
+		encrypt_block((unsigned char*)&msgPtr[8 * i], bitkey, false);
 	}
 
-	std::string ret_string("");
+	padlength = (int)msgPtr[mlength-1];
 
-	for (int i = 0; i < enc_set.size(); ++i)
-	{
-		std::bitset<8> parts[8];
-		for (int j = 0; j < 8; ++j)
-		{
-			for (int k = 0; k < 8; ++k)
-			{
+	std::string retval(msgPtr);
+	retval.erase(mlength-padlength,padlength);
+	delete[] msgPtr;
 
-				parts[7 - j][k] = enc_set[i][j * 8 + k];
-			}
-		}
-
-		for (int j = 0; j < 8; ++j)
-		{
-			char c;
-			c = (char)parts[j].to_ulong();
-			ret_string.insert(ret_string.end(), c);
-		}
-
-	}
-	return ret_string;
-}
-
-std::bitset<64> key_string_to_bitset(std::string key)
-{
-	int keylen = key.length();
-	int padlength;
-
-	//pad the message
-	if (keylen % 8 == 0)
-	{
-		padlength = 8;
-	}
-	else
-	{
-		padlength = 8 - keylen % 8;
-	}
-
-	int keylength_new = keylen + padlength;
-
-	for (int i = keylen; i < keylength_new; ++i)
-	{
-		key.insert(key.end(), (char)padlength);
-	}
-
-	std::bitset<64> bitkey;
-		
-	for (int j = 0; j < 8;++j)
-	{
-		std::bitset<64> temp = key[j];
-		bitkey <<= 8;
-		bitkey |= temp;
-	}
-
-	return bitkey;
+	return retval;
 }

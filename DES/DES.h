@@ -13,4 +13,4 @@ std::string encrypt_string(std::string message, std::string key);
 std::string decrypt_string(std::string message, std::string key);
 
 std::bitset<64> key_string_to_bitset(std::string key);
-
+void encrypt_block(unsigned char *block, std::bitset<64> key, bool enc);

@@ -13,8 +13,14 @@ int main(int argc, char **argv)
 	std::bitset<64> message2(0xda02ce3a89ecac3b);
 	std::bitset<64> result;
 
+	std::string test("Hello, how are you today?");
+	std::cout << test << std::endl;
+	test.erase(5, 5);
+	std::cout << test << std::endl;
+
+
 	
-	std::string res = encrypt_string("HELLO", "TEST");
+	std::string res = encrypt_string("HELLO, THIS IS A TEST", "TEST");
 	std::cout << res << "\n";
 	std::string res2 = decrypt_string(res, "TEST");
 	std::cout << res2 << "\n";
