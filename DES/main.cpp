@@ -15,7 +15,9 @@ void menu_option4();
 void menu_option5();
 void menu_option6();
 void menu_option7();
-
+/*
+Main, displays a menu with several different options.
+*/
 int main(int argc, char **argv)
 {
 	int menu_choice;
@@ -57,7 +59,7 @@ int main(int argc, char **argv)
 	return 0;
 }
 
-
+// Print ciphertext as hex digits
 void pretty_print(std::string text)
 {
 	char* temp = new char[text.size()];
@@ -65,13 +67,13 @@ void pretty_print(std::string text)
 	strncpy(temp, text.c_str(), text.size());
 	tmpPtr = (unsigned char *)temp;
 
-	for (int i = 0; i < text.size(); ++i)
+	for (size_t i = 0; i < text.size(); ++i)
 		cout << hex << setfill('0') << setw(2) << (int)tmpPtr[i] << " ";
 	cout << endl;
 
 	delete[] temp;
 }
-
+//Encrypt given plaintext string
 void menu_option1()
 {
 	string message;
@@ -89,13 +91,16 @@ void menu_option1()
 	result = encrypt_string(message, key);
 
 	cout << "The encrypted text is: ";
-	cout << result << "\n\n";
+	cout << result << "\n";
+
+	cout << "Formatted as hex bytes :";
 	pretty_print(result);
+	cout << "\n\n";
 	cout << "Press enter key to return to the main menu\n";
 	//cin.ignore();
 	temp = cin.get();
 }
-
+//Decrypt given ciphertext string
 void menu_option2()
 {
 	string message;
@@ -116,6 +121,7 @@ void menu_option2()
 	//cin.ignore();
 	temp = cin.get();
 }
+//Demonstration if encrypt/Decrypt
 void menu_option3()
 {
 	cout << "Welcome to the demonstration!\n\n";
@@ -129,9 +135,13 @@ void menu_option3()
 	string res = encrypt_string(to_encrypt, key);
 
 	cout << "The encrypted text is: \n";
-	cout << res << "\n\n";
+	cout << res << "\n";
 
-	cout << "The resultant text will now be decrypted\n";
+	cout << "Formatted as hex bytes: \n";
+	pretty_print(res);
+	cout << "\n\n";
+
+	cout << "The resultant ciphertext will now be decrypted\n";
 
 
 	string res2 = decrypt_string(res, "Password");
@@ -142,6 +152,7 @@ void menu_option3()
 	cin.ignore();
 	char temp = cin.get();
 }
+//Encrypt a File
 void menu_option4()
 {
 	string filename;
@@ -163,6 +174,7 @@ void menu_option4()
 	cin.ignore();
 	temp = cin.get();
 }
+//Decrypt a file
 void menu_option5()
 {
 	string filename;
@@ -184,7 +196,7 @@ void menu_option5()
 	cin.ignore();
 	temp = cin.get();
 }
-
+//Encrypt a 64 bit hex number
 void menu_option6()
 {
 	unsigned long long tmp_msg, tmp_key;
@@ -211,7 +223,7 @@ void menu_option6()
 	cin.ignore();
 	temp = cin.get();
 }
-
+//Decrypt a 64 bit hex number
 void menu_option7()
 {
 	unsigned long long tmp_msg, tmp_key;

@@ -72,31 +72,37 @@ std::string decrypt_string(std::string message, std::string key)
 
 	for (int i = 0; i < size; ++i)
 	{
-		encrypt_block((unsigned char*)&msgPtr[8 * i], keys);
+		encrypt_block((unsigned char*)&msgPtr[8 * i], keys); //decrypt
 	}
 
+	//find pad length
 	padlength = (int)msgPtr[mlength - 1];
 	padlength = (padlength < 0 || padlength > 8) ? 0 : padlength;
 		
-
+	//remove padding
 	std::string retval(msgPtr);
 	retval.erase(mlength - padlength, padlength); //remove padding
 	delete[] msgPtr;
 
 	return retval;
 }
-
+/*
+File is read 1024 bytes at a time into a buffer
+Each 8 bytes is then encrypted at a time until the
+buffer is empty. if the remaining size is < buffer size,
+read it in, pad to be a multiple of 8bytes, then encrypt.
+*/
 void encrypt_file(std::string filename, std::string key)
 {
 	char buffer[1024];
 	int bytesRead;
 	std::string outfilename = filename;
 	outfilename.append(".enc");
-	std::ifstream inFile(filename, std::ios::in | std::ios::binary);
-	std::ofstream outFile(outfilename, std::ios::out | std::ios::binary);
+	std::ifstream inFile(filename, std::ios::in | std::ios::binary); //input file
+	std::ofstream outFile(outfilename, std::ios::out | std::ios::binary); //output file
 
-	keyschedule keys(key);
-
+	keyschedule keys(key); //generate keyschedule
+	//read file in chunks
 	while (inFile)
 	{
 		inFile.read(buffer, 1024);
@@ -106,7 +112,7 @@ void encrypt_file(std::string filename, std::string key)
 			int size = bytesRead / 8;
 			for (int i = 0; i < size; ++i)
 			{
-				encrypt_block((unsigned char*)&buffer[8 * i], keys);
+				encrypt_block((unsigned char*)&buffer[8 * i], keys); //encrypt
 			}
 			outFile.write(buffer, bytesRead);
 		}
@@ -135,7 +141,13 @@ void encrypt_file(std::string filename, std::string key)
 	remove(filename.c_str());
 	rename(outfilename.c_str(), filename.c_str());
 }
-
+/*
+File is read 1024 bytes at a time into a buffer
+Each 8 bytes is then decrypted at a time until the
+buffer is empty. The number of chunks is calculated.
+chunk = buffer, so how many times must a buffer be filled.
+if the  last chunk is being read, find the padding size and remove the padding.
+*/
 void decrypt_file(std::string filename, std::string key)
 {
 	char buffer[1024];
@@ -147,16 +159,16 @@ void decrypt_file(std::string filename, std::string key)
 
 	std::string outfilename = filename;
 	outfilename.append(".dec");
-
+	//find file size and number of chucnks it is split into
 	struct stat stat_buf;
 	stat(filename.c_str(), &stat_buf);
 	fileSize = stat_buf.st_size;
 	last_chunk = fileSize / 1024 + ((fileSize % 1024 == 0) ? 0 : 1);
 
-	std::ifstream inFile(filename, std::ios::in | std::ios::binary);
-	std::ofstream outFile(outfilename, std::ios::out | std::ios::binary);
+	std::ifstream inFile(filename, std::ios::in | std::ios::binary); //infile
+	std::ofstream outFile(outfilename, std::ios::out | std::ios::binary); //outfile
 
-	keyschedule keys(key);
+	keyschedule keys(key); //generate keyschedule
 	keys.reverse(); //reverse order for decryption
 
 	while (inFile)
@@ -169,7 +181,7 @@ void decrypt_file(std::string filename, std::string key)
 			int size = bytesRead / 8;
 			for (int i = 0; i < size; ++i)
 			{
-				encrypt_block((unsigned char*)&buffer[8 * i], keys);
+				encrypt_block((unsigned char*)&buffer[8 * i], keys); //decrypt
 			}
 
 			if (current_chunk == last_chunk)
@@ -187,7 +199,7 @@ void decrypt_file(std::string filename, std::string key)
 
 			for (int i = 0; i < size; ++i)
 			{
-				encrypt_block((unsigned char*)&buffer[8 * i], keys);
+				encrypt_block((unsigned char*)&buffer[8 * i], keys); //decrypt
 			}
 
 			if (current_chunk == last_chunk)
@@ -205,14 +217,17 @@ void decrypt_file(std::string filename, std::string key)
 	rename(outfilename.c_str(), filename.c_str());
 }
 
+//encrypt 64 bits
 std::bitset<64> encrypt_bits(std::bitset<64> message, std::bitset<64> key)
 {
-	keyschedule keys(key);
+	keyschedule keys(key); //generate keyschedule
 	return do_DES(message, keys);
 }
+
+//encrypt 64 bits
 std::bitset<64> decrypt_bits(std::bitset<64> message, std::bitset<64> key)
 {
-	keyschedule keys(key);
+	keyschedule keys(key); //generate keyschedule
 	keys.reverse(); //reverse order for decryption
 	return do_DES(message, keys);
 }
