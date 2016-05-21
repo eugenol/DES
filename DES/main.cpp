@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <iomanip>
+#include <cstring>
 #include "interfaces.h"
 
 using namespace std;
@@ -79,7 +80,6 @@ void menu_option1()
 	string message;
 	string key;
 	string result;
-	char temp;
 
 	cin.ignore();
 	cout << "Encrypt Text\n\n";
@@ -91,14 +91,14 @@ void menu_option1()
 	result = encrypt_string(message, key);
 
 	cout << "The encrypted text is: ";
-	cout << result << "\n";
+	cout << result << "\n\n";
 
 	cout << "Formatted as hex bytes :";
 	pretty_print(result);
 	cout << "\n\n";
 	cout << "Press enter key to return to the main menu\n";
 	//cin.ignore();
-	temp = cin.get();
+	cin.get();
 }
 //Decrypt given ciphertext string
 void menu_option2()
@@ -106,7 +106,6 @@ void menu_option2()
 	string message;
 	string key;
 	string result;
-	char temp;
 
 	cin.ignore();
 	cout << "Decrypt Text\n\n";
@@ -119,7 +118,7 @@ void menu_option2()
 
 	cout << "Press enter key to return to the main menu\n";
 	//cin.ignore();
-	temp = cin.get();
+	cin.get();
 }
 //Demonstration if encrypt/Decrypt
 void menu_option3()
@@ -127,7 +126,7 @@ void menu_option3()
 	cout << "Welcome to the demonstration!\n\n";
 
 	string to_encrypt = "Hello, this is a test for now";
-	cout << "The string to encrypt is: " <<to_encrypt << "\n";
+	cout << "The string to encrypt is: " << to_encrypt << "\n";
 
 	string key = "Password";
 	cout << "The encryption key is: " << key << "\n";
@@ -150,7 +149,7 @@ void menu_option3()
 
 	cout << "Press enter key to return to the main menu\n";
 	cin.ignore();
-	char temp = cin.get();
+	cin.get();
 }
 //Encrypt a File
 void menu_option4()
@@ -158,7 +157,6 @@ void menu_option4()
 	string filename;
 	string key;
 	string result;
-	char temp;
 
 	cout << "Encrypt a file\n\n";
 
@@ -166,13 +164,13 @@ void menu_option4()
 	cin >> filename;
 	cout << "Enter the encryption key > ";
 	cin >> key;
-	cout << "Encrypting "<< filename <<"...\n";
+	cout << "Encrypting " << filename << "...\n";
 	encrypt_file(filename, key);
-	cout <<filename<< " is now encrypted.\n\n";
+	cout << filename << " is now encrypted.\n\n";
 
 	cout << "Press enter key to return to the main menu\n";
 	cin.ignore();
-	temp = cin.get();
+	cin.get();
 }
 //Decrypt a file
 void menu_option5()
@@ -180,7 +178,6 @@ void menu_option5()
 	string filename;
 	string key;
 	string result;
-	char temp;
 
 	cout << "Decrypt a file\n\n";
 
@@ -194,13 +191,12 @@ void menu_option5()
 
 	cout << "Press enter key to return to the main menu\n";
 	cin.ignore();
-	temp = cin.get();
+	cin.get();
 }
 //Encrypt a 64 bit hex number
 void menu_option6()
 {
 	unsigned long long tmp_msg, tmp_key;
-	char temp;
 
 	cin.ignore();
 	cout << "Encrypt 64bit hex number\n\n";
@@ -209,7 +205,7 @@ void menu_option6()
 	cout << "Enter the encryption key (64bit hex number) > ";
 	cin >> hex >> tmp_key;
 
-	
+
 	std::bitset<64>  message(tmp_msg);
 	std::bitset<64>  key(tmp_key);
 	std::bitset<64>  result;
@@ -217,17 +213,16 @@ void menu_option6()
 	result = encrypt_bits(message, key);
 
 	cout << "The encrypted number is: ";
-	cout <<hex<<setw(16)<<setfill('0')<< result.to_ullong() << "\n\n";
+	cout << hex << setw(16) << setfill('0') << result.to_ullong() << "\n\n";
 
 	cout << "Press enter key to return to the main menu\n";
 	cin.ignore();
-	temp = cin.get();
+	cin.get();
 }
 //Decrypt a 64 bit hex number
 void menu_option7()
 {
 	unsigned long long tmp_msg, tmp_key;
-	char temp;
 
 	cin.ignore();
 	cout << "Decrypt 64bit hex number\n\n";
@@ -248,5 +243,5 @@ void menu_option7()
 
 	cout << "Press enter key to return to the main menu\n";
 	cin.ignore();
-	temp = cin.get();
+	cin.get();
 }

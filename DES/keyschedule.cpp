@@ -1,6 +1,7 @@
 #include "keyschedule.h"
 #include <algorithm>
 #include <iterator>
+#include <cstring>
 
 //Constructor with bitset
 keyschedule::keyschedule(std::bitset<64> key)
@@ -20,7 +21,7 @@ keyschedule::keyschedule(std::string key)
 	{
 		padlength = 8 - keylen % 8; //padding length
 
-		int keylength_new = keylen + padlength; 
+		int keylength_new = keylen + padlength;
 
 		for (int i = keylen; i < keylength_new; ++i)
 		{
@@ -48,7 +49,7 @@ keyschedule::keyschedule(std::string key)
 }
 
 //Default Constructor
-keyschedule::keyschedule( )
+keyschedule::keyschedule()
 {
 
 }
@@ -66,7 +67,7 @@ void keyschedule::do_keyschedule(std::bitset<64> key)
 	std::bitset<28> Dn[16];		// all 16 right halves
 	std::bitset<56> CnDn[16];	// all 16 keys before PC-2
 
-	// Apply PC-1 to key
+								// Apply PC-1 to key
 	for (int i = 0; i<56; i++)
 	{
 		keyplus[55 - i] = key[64 - PC_1[i]];

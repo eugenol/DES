@@ -1,26 +1,27 @@
 /*
 This file contains the main interfaces for using the DES implementation
 The following functions are available:
-	1. encrypt string
-	2. decrypt string
-	3. encrypt file
-	4. decrypt file
-	5. encrypt bitset
-	6. decrypt bitset
-	
+1. encrypt string
+2. decrypt string
+3. encrypt file
+4. decrypt file
+5. encrypt bitset
+6. decrypt bitset
+
 For encryption, the string/file is padded to be a multiple of 64bits in size
 The padding used is "PKCS5 padding" and works as follows:
 
 If the message is not a multiple of 8 characters, the message is padded to be a multiple of
 8 characters. This means that 1 to 8 characters can be added. The padding is the number of
-characters that was added. This aids the decryption routine, as the last byte always is the 
+characters that was added. This aids the decryption routine, as the last byte always is the
 number of padding characters to remove. This means that an encryped file is always a multiple
 of 8 bytes in size.
 
 */
 #include <fstream>
 #include <sys/types.h>
-#include<sys/stat.h>
+#include <sys/stat.h>
+#include <cstring>
 #include "interfaces.h"
 
 std::string encrypt_string(std::string message, std::string key)
@@ -78,7 +79,7 @@ std::string decrypt_string(std::string message, std::string key)
 	//find pad length
 	padlength = (int)msgPtr[mlength - 1];
 	padlength = (padlength < 0 || padlength > 8) ? 0 : padlength;
-		
+
 	//remove padding
 	std::string retval(msgPtr);
 	retval.erase(mlength - padlength, padlength); //remove padding
@@ -102,7 +103,7 @@ void encrypt_file(std::string filename, std::string key)
 	std::ofstream outFile(outfilename, std::ios::out | std::ios::binary); //output file
 
 	keyschedule keys(key); //generate keyschedule
-	//read file in chunks
+						   //read file in chunks
 	while (inFile)
 	{
 		inFile.read(buffer, 1024);
@@ -121,7 +122,7 @@ void encrypt_file(std::string filename, std::string key)
 			//last block read, pad it
 			bytesRead = (int)inFile.gcount();
 			int padlength = 8 - bytesRead % 8;
-			int size = (bytesRead + padlength)/8;
+			int size = (bytesRead + padlength) / 8;
 
 			for (int i = bytesRead; i < bytesRead + padlength; ++i)
 			{
@@ -154,8 +155,8 @@ void decrypt_file(std::string filename, std::string key)
 	int bytesRead;
 	long fileSize;
 	long last_chunk;
-	long current_chunk=0;
-	int padlength=0;
+	long current_chunk = 0;
+	int padlength = 0;
 
 	std::string outfilename = filename;
 	outfilename.append(".dec");
@@ -189,7 +190,7 @@ void decrypt_file(std::string filename, std::string key)
 				padlength = buffer[1023];
 			}
 
-			outFile.write(buffer, bytesRead-padlength);
+			outFile.write(buffer, bytesRead - padlength);
 		}
 		else
 		{
@@ -204,10 +205,10 @@ void decrypt_file(std::string filename, std::string key)
 
 			if (current_chunk == last_chunk)
 			{
-				padlength = buffer[bytesRead-1];
+				padlength = buffer[bytesRead - 1];
 			}
 
-			outFile.write(buffer, bytesRead- padlength);
+			outFile.write(buffer, bytesRead - padlength);
 		}
 	}
 
